@@ -9,11 +9,11 @@
     "public": "public",
     "ignore": [
       "firebase.json",
-      "**/.*",
       "**/node_modules/**"
     ],
     "rewrites": [
-      { "source": "/helloWorld", "function": "helloWorld" }
+      { "source": "/hello", "function": "hello" },
+      { "source": "/proxy", "function": "proxy" }
     ]
   }
 }
