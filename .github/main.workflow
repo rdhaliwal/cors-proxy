@@ -9,7 +9,7 @@ action "login" {
   secrets = ["HEROKU_API_KEY"]
 }
 
-action "push" {
+action "release" {
   uses = "actions/heroku@master"
   needs = "login"
   args = "container:push -a rd-cors web"
