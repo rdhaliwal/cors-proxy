@@ -12,6 +12,13 @@ action "login" {
 action "release" {
   uses = "actions/heroku@master"
   needs = "login"
-  args = "container:push -a rd-cors web"
   secrets = ["HEROKU_API_KEY"]
+  args = "container:push -a rd-cors web"
+}
+
+action "Deploy to Heroku" {
+  uses = "actions/heroku@master"
+  needs = "push"
+  secrets = ["HEROKU_API_KEY"]
+  args = "container:release -a rd-cors web"
 }
