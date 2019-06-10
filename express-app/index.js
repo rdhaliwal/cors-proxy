@@ -4,22 +4,28 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-app.get('/', (req, res) => {
+const helloWorld = (req, res) => {
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Content-Type', 'text/json');
   res.send({
     "hello":  "world",
   });
-});
+};
 
-app.get('/json', (req, res) => {
-  res.set('Access-Control-Allow-Origin', '*');
-  res.set('Content-Type', 'text/json');
-  res.send({
-    "hello":  "world",
-  });
-});
+const jsonProxy = async (req, res) => {
+  let contentType;
+  const imageUrl = req.query.url;
 
+  return await fetch(imageUrl, {})
+    .then((r) => r.json())
+    .then((data) => {
+      res.set('Access-Control-Allow-Origin', '*');
+      res.set('Cache-Control', 'max-age=86400');
+      res.set('Content-Type', 'text/json');
+
+      res.send(data);
+    });
+};
 
 const imageProxy = async (req, res) => {
   let contentType;
@@ -42,10 +48,10 @@ const imageProxy = async (req, res) => {
     });
 };
 
-
+app.get(['/', '/hello'], helloWorld);
+app.get('/json', jsonProxy);
 app.get('/image', imageProxy);
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
-
-
-
+app.listen(port, () => {
+  console.log(`Started cors-proxy app on port ${port}!`);
+});
