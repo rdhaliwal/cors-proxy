@@ -1,10 +1,17 @@
-workflow "On push" {
+workflow "Deploy to Heroku" {
   on = "push"
-  resolves = ["GitHub Action for Heroku"]
+  resolves = "release"
 }
 
-action "GitHub Action for Heroku" {
-  uses = "actions/heroku@466fea5e8253586a6df75b10e95447b0bfe383c1"
-  secrets = ["GITHUB_TOKEN", "HEROKU_API_KEY"]
-  runs = "release"
+action "login" {
+  uses = "actions/heroku@master"
+  args = "container:login"
+  secrets = ["HEROKU_API_KEY"]
+}
+
+action "push" {
+  uses = "actions/heroku@master"
+  needs = "login"
+  args = "container:push -a rd-cors web"
+  secrets = ["HEROKU_API_KEY"]
 }
