@@ -1,0 +1,15 @@
+{
+  "name": "cors-proxy",
+  "engines": {
+    "node": "10"
+  },
+  "scripts": {
+    "server": "node index.js"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.0"
+  },
+  "private": true
+}
